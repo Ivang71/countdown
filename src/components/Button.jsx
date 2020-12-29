@@ -5,8 +5,12 @@ export default function Button() {
         e.preventDefault();
         console.log('The link was clicked.');
     }
+
     return (
-        <button onClick={handleClick}>Log react event</button>
+        <>
+            <button onClick={handleClick}>Log react event</button>
+
+        </>
     )
 }
 
