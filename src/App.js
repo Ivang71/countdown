@@ -1,73 +1,72 @@
 import './App.css';
 import 'antd/dist/antd.dark.css';
 import React, {useState} from "react";
-import {Button} from "antd";
+import {Button, Drawer, Statistic} from "antd";
+import {SettingOutlined} from '@ant-design/icons';
 
-
-/*class App extends React.Component {
-    state = {
-        loadings: [],
-    };
-
-    enterLoading = index => {
-        this.setState(({ loadings }) => {
-            const newLoadings = [...loadings];
-            newLoadings[index] = true;
-
-            return {
-                loadings: newLoadings,
-            };
-        });
-        setTimeout(() => {
-            this.setState(({ loadings }) => {
-                const newLoadings = [...loadings];
-                newLoadings[index] = false;
-
-                return {
-                    loadings: newLoadings,
-                };
-            });
-        }, 6000);
-    };
-
-    render() {
-        const { loadings } = this.state;
-        return (
-            <>
-                <Button
-                    type="primary"
-                    loading={loadings[1]}
-                    onClick={() => this.enterLoading(1)}
-                >
-                    Click me!
-                </Button>
-            </>
-        );
-    }
-}*/
-
-
+//TODO: make loader
+//TODO: make drawer with language switch
 //https://jsonplaceholder.typicode.com/ fake rest api
-function App() {
+export default function App(props) {
+
     const [count, setCount] = useState(0);
 
-    const [isLoading, setIsLoading] = useState(false);
 
+    const [loading, setLoading] = useState({
+        isLoading: false,
+        duration: Math.random() * 1000 + 1000,
+    });
     const enterLoading = () => {
-        setIsLoading(true)
-        setTimeout(() => setIsLoading(false), 2000)
+        setLoading({...loading, isLoading: true})
+        setTimeout(
+            () => setLoading({
+                duration: (Math.random() + 0.2) * 1300 * count + 1500,
+                isLoading: false
+            }),
+            loading.duration
+        )
     }
 
+    const {Countdown} = Statistic;
+    const deadline = Date.now() + loading.duration; // Moment is also OK
+
+    const [visible, setVisible] = useState(false);
+    const showDrawer = () => setVisible(true)
+    const hideDrawer = () => setVisible(false)
+
+
     return (
-        <div className="App">
+        <div className={count < 2 ? "App" : "App alteredBackground"}>
+            <Button onClick={showDrawer} className="sideMenu" type="text" icon={<SettingOutlined/>} id="drawerButton"
+                    size="large"/>
+            <Drawer
+                title="Clicker"
+                placement="left"
+                closable={true}
+                onClose={hideDrawer}
+                visible={visible}
+            >
+                <section>
+                    <p>The content will be added soon. Come back later!</p>
+                </section>
+                <footer className="sideMenuFooter">View <a href="https://github.com/Ivang316/playground"
+                                                           target="_blank">source code</a></footer>
+            </Drawer>
+
             <p>You clicked {count} times</p>
+
             <Button
-                onClick={() => { enterLoading(); setCount(count + 1)}}
+                onClick={() => {
+                    enterLoading();
+                    setCount(count + 1)
+                }}
                 type="primary"
-                loading={isLoading}
+                loading={loading.isLoading}
             >Click me</Button>
+
+            {loading.isLoading ? <Countdown value={deadline} format="s:SSS"/> : null}
+
+
         </div>
     );
 }
-
-export default App;
