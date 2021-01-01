@@ -3,6 +3,7 @@ import 'antd/dist/antd.dark.css';
 import React, {useState} from "react";
 import {Button, Drawer, Statistic} from "antd";
 import {SettingOutlined} from '@ant-design/icons';
+import SideMenu from "./components/SideMenu";
 
 //TODO: make loader
 //TODO: make drawer with language switch
@@ -39,19 +40,7 @@ export default function App(props) {
         <div className={count < 2 ? "App" : "App alteredBackground"}>
             <Button onClick={showDrawer} className="sideMenu" type="text" icon={<SettingOutlined/>} id="drawerButton"
                     size="large"/>
-            <Drawer
-                title="Clicker"
-                placement="left"
-                closable={true}
-                onClose={hideDrawer}
-                visible={visible}
-            >
-                <section>
-                    <p>The content will be added soon. Come back later!</p>
-                </section>
-                <footer className="sideMenuFooter">View <a href="https://github.com/Ivang316/playground"
-                                                           target="_blank">source code</a></footer>
-            </Drawer>
+            <SideMenu visible={visible} hideMenu={hideDrawer}/>
 
             <p>You clicked {count} times</p>
 
