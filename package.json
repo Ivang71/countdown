@@ -1,7 +1,7 @@
 {
   "name": "playground",
   "version": "0.1.0",
-  "private": true,
+  "private": true, 
   "homepage": "http://Ivang71.github.io/playground",
   "dependencies": {
     "@ant-design/icons": "^4.3.0",
